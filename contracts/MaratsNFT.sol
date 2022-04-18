@@ -27,4 +27,5 @@ contract MaratsNFT is ERC721URIStorage {
         _setTokenURI(newItemId, tokenURI);
 
         return newItemId;
-   
+    }
+}
