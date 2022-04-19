@@ -2,14 +2,16 @@ from brownie import (
     accounts, config, network, Contract,
     MaratsNFT
     )
-from scripts.utils import get_account
+from scripts.utils import get_account, get_contract
 
-def main():
-    deploy()
-
-def deploy():
+def main():    
     account = get_account()
-    nft = MaratsNFT.deploy(
-        {"from": account},
-        publish_source=config["networks"][network.show_active()].get("verify", False))
+    nft_contract = get_contract("MaratsNFT")    
+    tx = nft_contract.awardItem(
+        account.address,
+        config['nft']['pug_uri'],
+        {"from": account})
+    tx.wait(1)
+    print(f"NFT balance of account[0]:{nft_contract.balanceOf(account.address)}")
+    
 
